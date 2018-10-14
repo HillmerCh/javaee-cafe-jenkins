@@ -1,5 +1,57 @@
 pipeline {
-	agent any
+	agent {
+        kubernetes {
+			 label 'sample-app'
+			 defaultContainer 'jnlp'
+			 yaml """
+
+			   apiVersion: extensions/v1beta1
+               kind: Deployment
+               metadata:
+                 name: javaee-cafe
+                 namespace: default
+               spec:
+                 replicas: 2
+                 template:
+                   metadata:
+                     name: javaee-cafe
+                     labels:
+                       app: javaee-cafe
+                   spec:
+                     containers:
+                     - name: javaee-cafe
+                       env:
+                         - name: POSTGRES_USER
+                           valueFrom:
+                             configMapKeyRef:
+                               name: postgres-config
+                               key: postgres_user
+                         - name: POSTGRES_PASSWORD
+                           valueFrom:
+                             configMapKeyRef:
+                               name: postgres-config
+                               key: postgres_password
+                         - name: POSTGRES_HOST
+                           valueFrom:
+                             configMapKeyRef:
+                               name: hostname-config
+                               key: postgres_host
+                       image: <your Docker Hub account>/javaee-cafe:v1
+               ---
+               apiVersion: v1
+               kind: Service
+               metadata:
+                 name: javaee-cafe
+               spec:
+                 type: LoadBalancer
+                 ports:
+                   - port: 9080
+                 selector:
+                   app: javaee-cafe
+
+			   """
+        }
+     }
 
 	tools {
 		// Get the Maven tool.
