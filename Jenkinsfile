@@ -1,62 +1,28 @@
 pipeline {
   agent {
     kubernetes {
-      label 'javaee-cafe'
+      label 'sample-app'
       defaultContainer 'jnlp'
       yaml """
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: javaee-cafe
-  namespace: default
-spec:
-  replicas: 2
-  template:
-    metadata:
-      name: javaee-cafe
-      labels:
-        app: javaee-cafe
-    spec:
-      serviceAccountName: cd-jenkins
-      containers:
-      - name: javaee-cafe
-        env:
-          - name: POSTGRES_USER
-            valueFrom:
-              configMapKeyRef:
-                name: postgres-config
-                key: postgres_user
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: postgres-config
-                key: postgres_password
-          - name: POSTGRES_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: hostname-config
-                key: postgres_host
-        image: hillmerch/javaee-cafe:v2
-        command:
-        - cat
-        tty: true
-
-      - name: kubectl
-        image: gcr.io/cloud-builders/kubectl
-        command:
-        - cat
-        tty: true
----
 apiVersion: v1
-kind: Service
+kind: Pod
 metadata:
-  name: javaee-cafe
+labels:
+  component: ci
 spec:
-  type: LoadBalancer
-  ports:
-    - port: 9080
-  selector:
-    app: javaee-cafe
+  # Use service account that can deploy to all namespaces
+  serviceAccountName: cd-jenkins
+  containers:
+  - name: javaee-cafe
+    image: hillmerch/javaee-cafe:v2
+    command:
+    - cat
+    tty: true
+  - name: kubectl
+    image: gcr.io/cloud-builders/kubectl
+    command:
+    - cat
+    tty: true
 """
 }
   }
