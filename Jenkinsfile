@@ -1,7 +1,8 @@
 pipeline {
   agent {
-    any {
-      defaultContainer 'default'
+    kubernetes {
+      label 'javaee-cafe'
+      defaultContainer 'jnlp'
       yaml """
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -35,7 +36,13 @@ spec:
               configMapKeyRef:
                 name: hostname-config
                 key: postgres_host
-        image: javaee-cafe
+        image: hillmerch/javaee-cafe:v2
+        command:
+        - cat
+        tty: true
+
+      - name: kubectl
+        image: gcr.io/cloud-builders/kubectl
         command:
         - cat
         tty: true
