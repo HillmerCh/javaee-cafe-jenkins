@@ -9,7 +9,6 @@ metadata:
   name: javaee-cafe
   namespace: default
 spec:
-  serviceAccountName: cd-jenkins
   replicas: 2
   template:
     metadata:
@@ -17,6 +16,7 @@ spec:
       labels:
         app: javaee-cafe
     spec:
+      serviceAccountName: cd-jenkins
       containers:
       - name: javaee-cafe
         env:
