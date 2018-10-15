@@ -1,6 +1,6 @@
 pipeline {
   agent {
-    kubernetes {
+    any {
       defaultContainer 'default'
       yaml """
 apiVersion: extensions/v1beta1
@@ -35,7 +35,7 @@ spec:
               configMapKeyRef:
                 name: hostname-config
                 key: postgres_host
-        image: hillmerch/javaee-cafe:v2
+        image: javaee-cafe
         command:
         - cat
         tty: true
