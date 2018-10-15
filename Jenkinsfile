@@ -38,17 +38,6 @@ spec:
     command:
     - cat
     tty: true
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: javaee-cafe
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 9080
-  selector:
-    app: javaee-cafe
 """
 }
   }
