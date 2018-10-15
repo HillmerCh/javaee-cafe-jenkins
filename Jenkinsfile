@@ -1,6 +1,7 @@
 pipeline {
   agent {
     kubernetes {
+      label 'javaee-app'
       defaultContainer 'jnlp'
       yaml """
 apiVersion: v1
