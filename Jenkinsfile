@@ -35,7 +35,7 @@ spec:
               configMapKeyRef:
                 name: hostname-config
                 key: postgres_host
-        image: javaee-cafe
+        image: hillmerch/javaee-cafe:v2
 ---
 apiVersion: v1
 kind: Service

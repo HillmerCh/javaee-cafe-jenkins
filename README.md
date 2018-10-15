@@ -185,7 +185,13 @@ Additionally the `jenkins-ui` services is exposed using a ClusterIP so that it i
    ```
    kubectl create -f javaee-cafe.yml 
    ```
+> **Note Temporary:** I am using  y Dockerhub hillmerch/javaee-cafe:v2
 
+* List Kubernetes pods:
+   ```
+   kubectl get po
+   ```
+ 
 * Get the External IP address of the Service, then the application will be accessible at `http://<External IP Address>:9080/javaee-cafe`:
    ```
    kubectl get svc javaee-cafe
