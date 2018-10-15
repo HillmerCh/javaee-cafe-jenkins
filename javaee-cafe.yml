@@ -11,6 +11,7 @@ spec:
       labels:
         app: javaee-cafe
     spec:
+      serviceAccountName: cd-jenkins
       containers:
       - name: javaee-cafe
         env:
@@ -29,7 +30,10 @@ spec:
             configMapKeyRef:
               name: hostname-config
               key: postgres_host
-        image: javaee-cafe
+        image: hillmerch/javaee-cafe:v2
+        command:
+        - cat
+        tty: true
 ---
 apiVersion: v1
 kind: Service
