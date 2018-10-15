@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      defaultContainer 'jnlp'
+      defaultContainer 'javaee-cafe'
       yaml """
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -35,7 +35,10 @@ spec:
               configMapKeyRef:
                 name: hostname-config
                 key: postgres_host
-        image: hillmerch/javaee-cafe:v2
+        image: javaee-cafe
+        command:
+        - cat
+        tty: true
 ---
 apiVersion: v1
 kind: Service
@@ -64,15 +67,12 @@ spec:
 
 		stage ('Build') {
 			steps {
-					sh 'mvn clean package'
+                    container('javaee-cafe') {
+					    sh 'mvn clean package'
+                    }
 			}
 		}
 
-		stage ('Deploy') {
 
-			steps {
-					sh 'mvn deploy'
-			}
-		}
 	}
 }
