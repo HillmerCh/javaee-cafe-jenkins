@@ -168,11 +168,22 @@ Additionally the `jenkins-ui` services is exposed using a ClusterIP so that it i
    ```
 
 > **Note:** We used the Docker image built and pushed to Docker Hub on kubernetes-clustering session.
-   
 
-* Replace the `<your Docker Hub account>` value with your account name in `javaee-cafe.yml` file, then deploy the application:
+* Do a full build of the javaee-cafe application via Maven:
+
+	```
+	mvn install
+	```
+
+* Build a Docker image tagged `javaee-cafe` navigating to the thin-war/ directory as context and issuing the command:
+
+	```
+	docker build -t javaee-cafe .
+	```
+	
+* Deploy the application:
    ```
-   kubectl create -f javaee-cafe.yml
+   kubectl create -f javaee-cafe.yml 
    ```
 
 * Get the External IP address of the Service, then the application will be accessible at `http://<External IP Address>:9080/javaee-cafe`:
@@ -205,6 +216,24 @@ Pipeline Definition: Pipeline script from SCM, SCM git Repository URL https://gi
 ,Script Path: Jenkinsfile, credentials are not needed
 * Click `Save`, leaving all other options with their defaults
 * Test de Pipeline by click on Build Now option
+
+
+
+## Deleting the Resources
+* Delete the Java EE deployment:
+   ```
+   kubectl delete -f javaee-cafe.yml
+   ```
+
+* Delete the hostname config map:
+   ```
+   kubectl delete cm hostname-config
+   ```
+
+* Delete Postgres:
+   ```
+   kubectl delete -f postgres.yml
+   ```
 
 
 
