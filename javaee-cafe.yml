@@ -29,7 +29,7 @@ spec:
             configMapKeyRef:
               name: hostname-config
               key: postgres_host
-        image: <your Docker Hub account>/javaee-cafe:v1
+        image: javaee-cafe
 ---
 apiVersion: v1
 kind: Service
