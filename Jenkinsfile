@@ -14,22 +14,22 @@ spec:
   serviceAccountName: cd-jenkins
   containers:
   - name: javaee-cafe
-    #env:
-    #  - name: POSTGRES_USER
-    #    valueFrom:
-    #      configMapKeyRef:
-    #        name: postgres-config
-    #        key: postgres_user
-    #  - name: POSTGRES_PASSWORD
-    #    valueFrom:
-    #      configMapKeyRef:
-    #        name: postgres-config
-    #        key: postgres_password
-    #  - name: POSTGRES_HOST
-    #    valueFrom:
-    #      configMapKeyRef:
-    #        name: hostname-config
-    #        key: postgres_host
+    env:
+      - name: POSTGRES_USER
+        valueFrom:
+          configMapKeyRef:
+            name: postgres-config
+            key: postgres_user
+      - name: POSTGRES_PASSWORD
+        valueFrom:
+          configMapKeyRef:
+            name: postgres-config
+            key: postgres_password
+      - name: POSTGRES_HOST
+        valueFrom:
+          configMapKeyRef:
+            name: hostname-config
+            key: postgres_host
     image: hillmerch/javaee-cafe:v2
     command:
     - cat
@@ -39,17 +39,17 @@ spec:
     command:
     - cat
     tty: true
-#---
-#apiVersion: v1
-#kind: Service
-#metadata:
-#  name: javaee-cafe
-#spec:
-#  type: LoadBalancer
-#  ports:
-#    - port: 9080
-#  selector:
-#    app: javaee-cafe
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: javaee-cafe
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 9080
+  selector:
+    app: javaee-cafe
 """
 }
   }
