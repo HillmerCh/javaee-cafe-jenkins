@@ -31,7 +31,7 @@ spec:
           configMapKeyRef:
             name: hostname-config
             key: postgres_host
-    image: hillmerch/javaee-cafe:v2
+    image: gcr.io/myjenkinsjee/javaee-cafe:v1
     command:
     - cat
     tty: true
